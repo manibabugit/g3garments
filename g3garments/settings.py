@@ -99,7 +99,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'Manibabu60',
+        'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': 'database-1.cbcqq0zeutmk.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
@@ -152,8 +152,8 @@ USE_S3 = 'TRUE'
 
 if USE_S3:
     # aws settings
-    AWS_ACCESS_KEY_ID = 'AKIASDC2HLTIEM5UDL6N'
-    AWS_SECRET_ACCESS_KEY = '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'
+    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY')
+    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_KEY')
     AWS_STORAGE_BUCKET_NAME = 'gaya3garments'
     AWS_DEFAULT_ACL = None
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
