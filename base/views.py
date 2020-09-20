@@ -4,10 +4,11 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from django.http import HttpResponse
-from .forms import *
-from .models import *
+from base.models import *
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 
@@ -18,7 +19,7 @@ def about(request):
     return render(request, 'base/about.html')
 
 
-
+'''
 def upload_image(request): 
   
     if request.method == 'POST': 
@@ -29,7 +30,24 @@ def upload_image(request):
             return redirect('success') 
     else: 
         form = UploadImageForm() 
-    return render(request, 'base/upload_image_form.html', {'form' : form}) 
+    return render(request, 'base/upload_image_form.html', {'form' : form})
+''' 
+
+def upload_image(request):
+    if request.method == 'POST':
+        image_file = request.FILES['image_file']
+        if settings.USE_S3:
+            upload = UploadImage(file=image_file)
+            upload.save()
+            image_url = upload.file.url
+        else:
+            fs = FileSystemStorage()
+            filename = fs.save(image_file.name, image_file)
+            image_url = fs.url(filename)
+        return render(request, 'base/upload_image_form.html', {
+            'image_url': image_url
+        })
+    return render(request, 'base/upload_image_form.html')
   
   
 def success(request): 
