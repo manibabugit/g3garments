@@ -50,7 +50,7 @@
         <div class="row" id="gallery" data-toggle="modal" data-target="#exampleModal">
             {% for image in display_uploaded_images %}
             <div class="col-12 col-sm-6 col-lg-3">
-              <img class="w-100" src="{{ image.Img.url }}" data-target="#carouselExample" data-slide-to="{{ image.id }}">
+              <img class="w-100" src="{{ image.file.url }}" data-target="#carouselExample" data-slide-to="{{ image.id }}">
 
             </div>
             {% endfor %}
@@ -77,8 +77,8 @@
                 {% else %}
                 <div class="carousel-item">
                 {% endif %}
-                <img class="d-block w-100" src="{{ image.Img.url }}">
-                <h6> Model No:   {{ image.name }} </h6>
+                <img class="d-block w-100" src="{{ image.file.url }}">
+                <h6> Model No:   {{ image.file.name }} </h6>
                 <h6> Uploaded at: {{ image.uploaded }}</h6>
                 </div>
                 {% endfor %}               

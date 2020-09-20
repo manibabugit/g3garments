@@ -3,27 +3,41 @@
 {% block content %}
 
 <body style="background-color:LightGray;"> 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="row justify-content-center mt-6">
-        <div class="col-md-6">
-            <h2>Upload Images</h2>
+  <br>
+  <br>
+  <br>
+  <div class="container">
+    <div class="section">
+      <h1 class="is-size-1">Upload Image</h1>
+      <hr><br>
+      <form action="{% url "image_upload" %}" method="post" enctype="multipart/form-data" class="form">
+        {% csrf_token %}
+        <div class="field">
+          <div class="control">
+            <div class="file">
+              <label class="file-label">
+                <input class="file-input" type="file" name="image_file">
+                <span class="file-cta">
+                  <!-- <span class="file-label">Choose a file...</span> -->
+                </span>
+              </label>
+            </div>
+          </div>
         </div>
-    </div>
-    <div class="row justify-content-center mt-6">
-        <div class="col-md-6">
-          <form method = "post" enctype="multipart/form-data"> 
-            {% csrf_token %} 
-            {{ form.as_p }} 
-            <button type="submit" class="btn btn-primary">Upload</button> 
-          </form> 
+        <br>
+        <div class="field">
+          <div class="control">
+            <button type="submit" class="btn btn-primary">Upload</button>
+          </div>
         </div>
+      </form>
+      <br><br>
+      {% if image_url %}
+        <p>File uploaded at: <a href="{{ image_url }}">{{ image_url }}</a></p>
+      {% endif %}
     </div>
+  </div>
+</body>
 </body> 
 
 {% endblock %}
