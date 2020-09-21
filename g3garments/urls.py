@@ -30,6 +30,14 @@ urlpatterns = [
     path('display_images', views.display_uploaded_images, name='display_images'),
     path('logout/', views.logoutuser, name='logoutuser'),
     path('login/', views.loginuser, name='loginuser'),
+    path('upload_jeans/', views.upload_jeans_image, name='upload_jeans'),
+    path('upload_shirts/', views.upload_shirts_image, name='upload_shirts'),
+    path('upload_hoodies/', views.upload_hoodies_image, name='upload_hoodies'),
+    path('upload_tracks/', views.upload_tracks_image, name='upload_tracks'),
+    path('list_jeans/', views.list_jeans, name='list_jeans'),
+    path('list_shirts/', views.list_shirts, name='list_shirts'),
+    path('list_hoodies/', views.list_hoodies, name='list_hoodies'),
+    path('list_tracks/', views.list_tracks, name='list_tracks'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

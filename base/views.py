@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from django.http import HttpResponse
-from base.models import *
+from base.models import UploadImage, UploadHoodiesImage, UploadJeansImage, UploadShirtsImage, UploadTracksImage
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -19,21 +19,8 @@ def about(request):
     return render(request, 'base/about.html')
 
 
-'''
-def upload_image(request): 
-  
-    if request.method == 'POST': 
-        form = UploadImageForm(request.POST, request.FILES) 
-  
-        if form.is_valid(): 
-            form.save() 
-            return redirect('success') 
-    else: 
-        form = UploadImageForm() 
-    return render(request, 'base/upload_image_form.html', {'form' : form})
-''' 
-
 def upload_image(request):
+    print(request)
     if request.method == 'POST':
         image_file = request.FILES['image_file']
         if settings.USE_S3:
@@ -49,7 +36,76 @@ def upload_image(request):
         })
     return render(request, 'base/upload_image_form.html')
   
-  
+def upload_jeans_image(request):
+    print(request)
+    if request.method == 'POST':
+        image_file = request.FILES['image_file']
+        if settings.USE_S3:
+            upload = UploadJeansImage(file=image_file)
+            upload.save()
+            image_url = upload.file.url
+        else:
+            fs = FileSystemStorage()
+            filename = fs.save(image_file.name, image_file)
+            image_url = fs.url(filename)
+        return render(request, 'base/upload_jeans.html', {
+            'image_url': image_url
+        })
+    return render(request, 'base/upload_jeans.html')  
+    
+
+def upload_shirts_image(request):
+    print(request)
+    if request.method == 'POST':
+        image_file = request.FILES['image_file']
+        if settings.USE_S3:
+            upload = UploadShirtsImage(file=image_file)
+            upload.save()
+            image_url = upload.file.url
+        else:
+            fs = FileSystemStorage()
+            filename = fs.save(image_file.name, image_file)
+            image_url = fs.url(filename)
+        return render(request, 'base/upload_shirts.html', {
+            'image_url': image_url
+        })
+    return render(request, 'base/upload_shirts.html')  
+
+
+def upload_hoodies_image(request):
+    print(request)
+    if request.method == 'POST':
+        image_file = request.FILES['image_file']
+        if settings.USE_S3:
+            upload = UploadHoodiesImage(file=image_file)
+            upload.save()
+            image_url = upload.file.url
+        else:
+            fs = FileSystemStorage()
+            filename = fs.save(image_file.name, image_file)
+            image_url = fs.url(filename)
+        return render(request, 'base/upload_hoodies.html', {
+            'image_url': image_url
+        })
+    return render(request, 'base/upload_hoodies.html')  
+
+def upload_tracks_image(request):
+    print(request)
+    if request.method == 'POST':
+        image_file = request.FILES['image_file']
+        if settings.USE_S3:
+            upload = UploadTracksImage(file=image_file)
+            upload.save()
+            image_url = upload.file.url
+        else:
+            fs = FileSystemStorage()
+            filename = fs.save(image_file.name, image_file)
+            image_url = fs.url(filename)
+        return render(request, 'base/upload_tracks.html', {
+            'image_url': image_url
+        })
+    return render(request, 'base/upload_tracks.html')  
+
 def success(request): 
     return HttpResponse('successfully uploaded') 
 
@@ -63,6 +119,33 @@ def display_uploaded_images(request):
         return render(request, 'base/display_uploaded_images.html', {'display_uploaded_images': images})
 
 
+def list_jeans(request):
+    if request.method == 'GET':
+
+        # gettting all the objects of UploadImage
+        images = UploadJeansImage.objects.all()
+        return render(request, 'base/display_uploaded_images.html', {'display_uploaded_images': images})
+
+def list_shirts(request):
+    if request.method == 'GET':
+
+        # gettting all the objects of UploadImage
+        images = UploadShirtsImage.objects.all()
+        return render(request, 'base/display_uploaded_images.html', {'display_uploaded_images': images})
+
+def list_hoodies(request):
+    if request.method == 'GET':
+
+        # gettting all the objects of UploadImage
+        images = UploadHoodiesImage.objects.all()
+        return render(request, 'base/display_uploaded_images.html', {'display_uploaded_images': images})
+
+def list_tracks(request):
+    if request.method == 'GET':
+
+        # gettting all the objects of UploadImage
+        images = UploadTracksImage.objects.all()
+        return render(request, 'base/display_uploaded_images.html', {'display_uploaded_images': images})
 
 def logoutuser(request):
     if request.method == 'POST':
